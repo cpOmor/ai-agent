@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trust One Hospital - এআই অ্যাসিস্ট্যান্ট</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #070b14;
+      --bg-card: rgba(18, 26, 44, 0.75);
+      --bg-user: linear-gradient(135deg, #2563eb, #1d4ed8);
+      --bg-bot: rgba(26, 36, 56, 0.85);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(96, 165, 250, 0.5);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --primary: #3b82f6;
+      --success: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', 'Hind Siliguri', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(37, 99, 235, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.15) 0%, transparent 40%);
+    }
+
+    /* Header */
+    header {
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .logo-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #e11d48, #2563eb);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 16px rgba(225, 29, 72, 0.4);
+    }
+
+    .brand-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(90deg, #ffffff, #93c5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .online-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #10b981;
+      display: inline-block;
+    }
+
+    .brand-sub {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 0.5rem 0.9rem;
+      border-radius: 9px;
+      font-size: 0.84rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb, #0284c7);
+      border: none;
+      color: white;
+      box-shadow: 0 0 14px rgba(37, 99, 235, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #1d4ed8, #0369a1);
+      transform: translateY(-1px);
+    }
+
+    .btn-badge {
+      background: rgba(56, 189, 248, 0.2);
+      color: #38bdf8;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 10px;
+    }
+
+    /* Chat Container */
+    .chat-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      scroll-behavior: smooth;
+    }
+
+    .welcome-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 2.25rem;
+      text-align: center;
+      margin-top: 1.5rem;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(14px);
+    }
+
+    .welcome-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #e11d48, #2563eb);
+      margin: 0 auto 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(225, 29, 72, 0.4);
+    }
+
+    .welcome-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+
+    .welcome-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .kb-status-box {
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 10px;
+      padding: 0.6rem 1rem;
+      font-size: 0.82rem;
+      color: #7dd3fc;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .kb-status-box:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: #38bdf8;
+    }
+
+    .suggestion-chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+
+    .chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 0.55rem 1.1rem;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .chip:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
+    }
+
+    /* Message Bubbles */
+    .message {
+      display: flex;
+      gap: 0.85rem;
+      max-width: 84%;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .message.bot {
+      align-self: flex-start;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.82rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .message.user .avatar {
+      background: #2563eb;
+      color: #fff;
+    }
+
+    .message.bot .avatar {
+      background: linear-gradient(135deg, #e11d48, #2563eb);
+      color: #fff;
+      box-shadow: 0 0 10px rgba(225, 29, 72, 0.35);
+    }
+
+    .bubble-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .message.user .bubble-wrapper {
+      align-items: flex-end;
+    }
+
+    .bubble {
+      padding: 0.9rem 1.2rem;
+      border-radius: 16px;
+      font-size: 0.96rem;
+      line-height: 1.65;
+      word-break: break-word;
+    }
+
+    .message.user .bubble {
+      background: var(--bg-user);
+      color: #ffffff;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+    }
+
+    .message.bot .bubble {
+      background: var(--bg-bot);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .bot-info-tag {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .bubble pre {
+      background: #090e1a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      margin: 0.6rem 0;
+      overflow-x: auto;
+      font-family: monospace;
+      font-size: 0.85rem;
+    }
+
+    .bubble code {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.15rem 0.35rem;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.88em;
+    }
+
+    .bubble p:not(:last-child) {
+      margin-bottom: 0.5rem;
+    }
+
+    .bubble ul, .bubble ol {
+      margin-left: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Typing Dots */
+    .typing-dots {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0.9rem 1.3rem;
+    }
+
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--text-muted);
+      border-radius: 50%;
+      animation: pulse 1.4s infinite ease-in-out both;
+    }
+
+    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes pulse {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+      40% { transform: scale(1.1); opacity: 1; }
+    }
+
+    /* Footer Input */
+    footer {
+      padding: 1rem 1.5rem 1.4rem;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid var(--border);
+    }
+
+    .input-form {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0.75rem;
+      position: relative;
+    }
+
+    .chat-textarea {
+      flex: 1;
+      background: rgba(26, 36, 56, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.85rem 1.15rem;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.95rem;
+      resize: none;
+      height: 52px;
+      max-height: 160px;
+      outline: none;
+      transition: all 0.2s ease;
+      line-height: 1.4;
+    }
+
+    .chat-textarea:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 14px var(--accent-glow);
+    }
+
+    .chat-textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    .send-btn {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #e11d48, #2563eb);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .send-btn:hover:not(:disabled) {
+      transform: scale(1.04);
+      box-shadow: 0 0 16px rgba(225, 29, 72, 0.45);
+    }
+
+    .send-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .send-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Modal / Knowledge Base Drawer */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 1rem;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 720px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      animation: modalIn 0.2s ease-out;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1.5rem;
+      line-height: 1;
+      padding: 0.25rem;
+    }
+
+    .modal-close:hover {
+      color: #fff;
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .kb-tabs {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    .kb-tab {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      padding: 0.5rem 1rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .kb-tab.active {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+    }
+
+    .tab-content {
+      display: none;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .tab-content.active {
+      display: flex;
+    }
+
+    .kb-textarea {
+      width: 100%;
+      height: 240px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.9rem;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      resize: vertical;
+      outline: none;
+    }
+
+    .kb-textarea:focus {
+      border-color: var(--border-focus);
+    }
+
+    .input-field {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .input-field:focus {
+      border-color: var(--border-focus);
+    }
+
+    .helper-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .modal-footer {
+      padding: 1.25rem 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 16, 30, 0.5);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #10b981;
+      color: white;
+      padding: 0.75rem 1.25rem;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      font-size: 0.9rem;
+      font-weight: 500;
+      z-index: 200;
+      display: none;
+      animation: toastIn 0.3s ease-out;
+    }
+
+    .whatsapp-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: #ffffff !important;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 0.75rem 1.4rem;
+      border-radius: 12px;
+      text-decoration: none;
+      margin: 0.75rem 0;
+      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4);
+      transition: all 0.25s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .whatsapp-btn:hover {
+      background: linear-gradient(135deg, #22bf5b, #0f7568);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(37, 211, 102, 0.55);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <div class="logo-badge">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-title">
+          Trust One Hospital (Pvt.)
+          <span class="online-dot" title="Active"></span>
+        </div>
+        <div class="brand-sub">স্মার্ট এআই হেল্পডেস্ক • মাইজদী, নোয়াখালী • হটলাইন: +8801895613801</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-primary" id="openKbBtn" title="হাসপাতালের তথ্য ও শিডিউল এডিট করুন">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        নলেজ বেস (ডাটা)
+        <span class="btn-badge" id="kbWordCount">Ready</span>
+      </button>
+      <button class="btn" id="clearBtn" title="কথোপকথন মুছুন">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3 6 5 6 21 6"></polyline>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        </svg>
+        Clear Chat
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Chat Container -->
+  <main class="chat-container" id="chatContainer">
+    <div class="welcome-card" id="welcomeCard">
+      <div class="welcome-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+        </svg>
+      </div>
+      <h2>স্বাগতম! ট্রাস্ট ওয়ান হসপিটাল এআই হেল্পডেস্ক 👋</h2>
+      <p>আমি ট্রাস্ট ওয়ান হসপিটাল (প্রাঃ)-এর এআই সহকারী। যেকোনো ডাক্তারের চেম্বার সময়সূচি, বিশেষজ্ঞতা বা সিরিয়াল সংক্রান্ত তথ্য জানতে প্রশ্ন করুন।<br><strong>সিরিয়াল বুকিং: +8801895613801</strong></p>
+      
+      <div class="kb-status-box" id="quickKbBadge" onclick="openKnowledgeModal()">
+        <span>🏥</span>
+        <span id="quickKbText">ট্রাস্ট ওয়ান হসপিটাল নলেজ বেস সক্রিয় • ডাক্তারদের সময়সূচি লোড হয়েছে</span>
+      </div>
+
+      <div class="suggestion-chips">
+        <div class="chip" onclick="sendSuggestion('তুমি কে?')">🤖 তুমি কে?</div>
+        <div class="chip" onclick="sendSuggestion('আজ কি কি বিশেষজ্ঞ ডাক্তার বসবেন?')">📅 ডাক্তারদের তালিকা ও সময়</div>
+        <div class="chip" onclick="sendSuggestion('অর্থোপেডিক্স বিশেষজ্ঞ ডাঃ মোহাম্মদ আবদুর রহমান সম্পর্কে বলো')">🦴 ডাঃ আবদুর রহমান (অর্থোপেডিক্স)</div>
+        <div class="chip" onclick="sendSuggestion('শিশুরোগ বিশেষজ্ঞ ডাঃ আতাউল গণি কখন বসেন?')">👶 ডাঃ আতাউল গণি (শিশু বিশেষজ্ঞ)</div>
+        <div class="chip" onclick="sendSuggestion('কার্ডিওলজিস্ট ডাঃ আবু ওমর খৈয়াম কখন রোগী দেখেন?')">❤️ ডাঃ আবু ওমর খৈয়াম (হার্ট)</div>
+        <div class="chip" onclick="sendSuggestion('সিরিয়াল বুকিং দেওয়ার নিয়ম এবং মোবাইল নম্বর কি?')">📞 সিরিয়াল বুকিং নম্বর</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Input Footer -->
+  <footer>
+    <form class="input-form" id="chatForm">
+      <textarea 
+        class="chat-textarea" 
+        id="userInput" 
+        placeholder="ডাক্তার, সময়সূচি বা সিরিয়াল নিয়ে প্রশ্ন করুন... (যেমন: হার্টের ডাক্তার কে আছেন? বা শনিবারের তালিকা)" 
+        rows="1"></textarea>
+      <button type="submit" class="send-btn" id="sendBtn" title="পাঠান">
+        <svg viewBox="0 0 24 24">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </form>
+  </footer>
+
+  <!-- Knowledge Base Modal -->
+  <div class="modal-overlay" id="knowledgeModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>📚</span>
+          ট্রাস্ট ওয়ান হসপিটাল নলেজ বেস (ডাটা ও ডকস)
+        </div>
+        <button class="modal-close" onclick="closeKnowledgeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="kb-tabs">
+          <button class="kb-tab active" onclick="switchKbTab('editTab', this)">📝 সরাসরি টেক্সট / ডাটা</button>
+          <button class="kb-tab" onclick="switchKbTab('gdocTab', this)">🔗 Google Docs ইম্পোর্ট</button>
+          <button class="kb-tab" onclick="switchKbTab('fileTab', this)">📁 ফাইল আপলোড</button>
+        </div>
+
+        <!-- Tab 1: Direct Text -->
+        <div class="tab-content active" id="editTab">
+          <p class="helper-text">
+            নিচে ট্রাস্ট ওয়ান হসপিটালের ডাক্তারদের তালিকা, সময়সূচি বা যেকোনো তথ্য এডিট/যুক্ত করতে পারেন:
+          </p>
+          <textarea class="kb-textarea" id="kbTextInput" placeholder="এখানে হাসপাতালের তথ্য বা নতুন ডাক্তারের সময়সূচি দিন..."></textarea>
+        </div>
+
+        <!-- Tab 2: Google Docs / Link -->
+        <div class="tab-content" id="gdocTab">
+          <p class="helper-text">
+            আপনার Google Doc-এর লিঙ্ক দিন। <br>
+            <strong>শর্ত:</strong> Google Doc-এর <em>Share &rarr; General access</em> অপশনে গিয়ে <strong>"Anyone with the link can view"</strong> করা থাকতে হবে।
+          </p>
+          <input type="text" class="input-field" id="gdocUrlInput" placeholder="https://docs.google.com/document/d/.../edit">
+          <button class="btn btn-primary" id="fetchDocBtn" onclick="importGoogleDoc()" style="align-self: flex-start;">
+            ডকস থেকে তথ্য আনুন
+          </button>
+          <div id="fetchDocStatus" class="helper-text" style="color: #38bdf8;"></div>
+        </div>
+
+        <!-- Tab 3: File Upload -->
+        <div class="tab-content" id="fileTab">
+          <p class="helper-text">
+            আপনার কম্পিউটার থেকে যেকোনো টেক্সট ফাইল (.txt, .md, .json, .csv) আপলোড করুন:
+          </p>
+          <input type="file" id="fileUploadInput" accept=".txt,.md,.json,.csv" class="input-field">
+          <div class="helper-text" id="fileUploadStatus"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" onclick="resetDefaultKnowledge()">রিসেট ডিফল্ট</button>
+        <button class="btn btn-primary" onclick="saveKnowledge()">💾 সেভ করুন (Save)</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toastMessage">নলেজ বেস সফলভাবে সেভ হয়েছে!</div>
+
+  <script>
+    const chatContainer = document.getElementById('chatContainer');
+    const welcomeCard = document.getElementById('welcomeCard');
+    const chatForm = document.getElementById('chatForm');
+    const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const kbModal = document.getElementById('knowledgeModal');
+    const kbTextInput = document.getElementById('kbTextInput');
+    const kbWordCount = document.getElementById('kbWordCount');
+    const toast = document.getElementById('toastMessage');
+
+    // Default Knowledge for Trust One Hospital
+    const DEFAULT_KNOWLEDGE = `=== ট্রাস্ট ওয়ান হসপিটাল (প্রাঃ) / TRUST ONE HOSPITAL (PVT.) নলেজ বেস ===
+
+[সাধারণ তথ্য ও যোগাযোগের ঠিকানা]
+হাসপাতালের নাম: ট্রাস্ট ওয়ান হসপিটাল (প্রাঃ) / Trust One Hospital (Pvt.)
+স্লোগান: "আপনার স্বাস্থ্য, আমাদের অঙ্গীকার"
+ঠিকানা: হাসপাতাল রোড, (পুরাতন পাসপোর্ট অফিস এর বিপরীত পাশে), মাইজদী, নোয়াখালী।
+সিরিয়াল ও হেল্পলাইন মোবাইল: +8801895613801 (০১৮৯৫৬১৩৮০১)
+ওয়েবসাইট: www.trustonehospital.com
+মূল সেবাসমূহ: বিশেষজ্ঞ ডাক্তার চেম্বার, আধুনিক ডায়াগনস্টিক ও প্যাথলজি ল্যাব, ডিজিটাল সেবা, আন্তরিক স্বাস্থ্যসেবা।
+
+-------------------------------------------------------------
+[বিশেষজ্ঞ ডাক্তারদের বিস্তারিত প্রোফাইল ও চেম্বার সময়সূচি]
+
+১. ডাঃ মোহাম্মদ আবদুর রহমান (অর্থোপেডিক্স বিশেষজ্ঞ সার্জন)
+- ডিগ্রি ও পদবী: এমবিবিএস (ঢাকা মেডিকেল কলেজ), বিসিএস (স্বাস্থ্য), ডি-অর্থো (NITOR) পঙ্গু হাসপাতাল। লেকচারার, নোয়াখালী মেডিকেল কলেজ, হাসপাতাল।
+- বিশেষজ্ঞতা: অর্থোপেডিক্স বিশেষজ্ঞ সার্জন (হাড়ভাঙ্গা, জোড়া, বাত ও মেরুদণ্ড বিশেষজ্ঞ সার্জন)
+- স্লোগান: "ব্যথা কমুক, চলার পথ হোক আরও স্বস্তির"
+- চেম্বার দিন: প্রতি শনি, রবি, সোম ও মঙ্গলবার
+- চেম্বার সময়: দুপুর ০১:০০ টা হতে সন্ধ্যা ০৭:০০ টা পর্যন্ত (শনিবার দুপুর ০১:০০ টা থেকে বিকাল ০৩:০০ টা পর্যন্ত)
+- সিরিয়ালের জন্য: +8801895613801
+
+২. ডাঃ এ এইচ এম আতাউল গণি (নবজাতক ও শিশুরোগ বিশেষজ্ঞ)
+- ডিগ্রি ও পদবী: এমবিবিএস, বিসিএস (স্বাস্থ্য), এমডি (শিশু) ঢাকা মেডিকেল কলেজ, হাসপাতাল, ঢাকা। নবজাতক ও শিশু আইসিইউ (NICU/PICU) অভিজ্ঞ। শিশু বিশেষজ্ঞ, নোয়াখালী।
+- বিশেষজ্ঞতা: নবজাতক ও শিশুরোগ বিশেষজ্ঞ
+- স্লোগান: "ছোট্ট শরীর, বড় যত্ন — সুস্থ শৈশবেই সুন্দর ভবিষ্যৎ"
+- চেম্বার দিন: প্রতিদিন (শুক্রবার ব্যতীত)
+- চেম্বার সময়: দুপুর ০২:০০ টা হতে রাত ০৮:০০ টা পর্যন্ত (শনিবার দুপুর ০২:০০ টা থেকে ০৩:০০ টা পর্যন্ত বিশেষ চেম্বার)
+- সিরিয়ালের জন্য: +8801895613801
+
+৩. ডাঃ মোঃ আবু ওমর খৈয়াম (মেডিসিন ও কার্ডিওলজি বিশেষজ্ঞ)
+- ডিগ্রি ও পদবী: এমবিবিএস (সিইউ), এমডি (কার্ডিওলজি), সিসিডি, ইডিসি (বারডেম), এমএসসিপি (আমেরিকা)। ট্রেইন্ড ইন ইকোকার্ডিওগ্রাফি, ঢাকা মেডিকেল কলেজ ও হাসপাতাল, ঢাকা। কনসালটেন্ট কার্ডিওলজিস্ট।
+- বিশেষজ্ঞতা: মেডিসিন ও কার্ডিওলজি (হৃদরোগ) বিশেষজ্ঞ
+- স্লোগান: "হৃদয় ভালো থাকুক, জীবনটা হোক আরও সুন্দর"
+- চেম্বার দিন: প্রতিদিন (শুক্রবার ব্যতীত)
+- চেম্বার সময়: দুপুর ০২:০০ টা হতে রাত ০৮:০০ টা পর্যন্ত
+- সিরিয়ালের জন্য: +8801895613801
+
+৪. সহকারী অধ্যাপক ডাঃ মোঃ মাহবুবুর রহমান
+- বিশেষজ্ঞতা: প্লাস্টিক সার্জন বিশেষজ্ঞ
+- চেম্বার সময়: শনিবার দুপুর ০২:০০ টা থেকে রাত ০৮:০০ টা পর্যন্ত
+- সিরিয়াল: +8801895613801
+
+৫. ডাঃ এমরান হোসেন (সোহেল)
+- বিশেষজ্ঞতা: মেডিসিন ও বক্ষব্যাধি বিশেষজ্ঞ
+- চেম্বার সময়: শনিবার দুপুর ০২:০০ টা থেকে সন্ধ্যা ০৬:০০ টা পর্যন্ত
+- সিরিয়াল: +8801895613801
+
+৬. ডাঃ সালমা সুলতানা
+- বিশেষজ্ঞতা: গাইনী, বন্ধ্যাত্ব ও স্ত্রীরোগ বিশেষজ্ঞ
+- চেম্বার সময়: দুপুর ০২:০০ টা থেকে রাত ০৮:০০ টা পর্যন্ত
+- বিশেষ নোটিশ: আগামী ১৫/১০/২০২৬ থেকে ২৩/১০/২০২৬ পর্যন্ত নিয়মিত চেম্বার করবেন
+- সিরিয়াল: +8801895613801
+
+৭. ডাঃ সামির হোসাইন সৈকত
+- বিশেষজ্ঞতা: নাক, কান ও গলা বিশেষজ্ঞ (ENT Specialist)
+- চেম্বার সময়: শনিবার সকাল ১১:৩০ টা থেকে বিকাল ০৫:০০ টা পর্যন্ত
+- সিরিয়াল: +8801895613801
+
+৮. ডাঃ ফারজানা সায়মা (অমি)
+- বিশেষজ্ঞতা: গাইনী, বন্ধ্যাত্ব ও স্ত্রীরোগ বিশেষজ্ঞ
+- চেম্বার সময়: শনিবার বিকাল ০৪:০০ টা থেকে রাত ০৮:০০ টা পর্যন্ত
+- সিরিয়াল: +8801895613801
+
+৯. ডাঃ মোঃ ওয়ালী উদ্দীন মাসুদ
+- বিশেষজ্ঞতা: চর্ম ও যৌনরোগ বিশেষজ্ঞ (Skin & VD Specialist)
+- চেম্বার সময়: শনিবার দুপুর ০১:০০ টা থেকে দুপুর ০৩:০০ টা পর্যন্ত
+- সিরিয়াল: +8801895613801
+
+১০. ডাঃ মুন-ইমা আলম
+- বিশেষজ্ঞতা: মহিলা জেনারেল বিশেষজ্ঞ সার্জন
+- চেম্বার সময়: শনিবার দুপুর ০২:০০ টা থেকে দুপুর ০৩:০০ টা পর্যন্ত
+- সিরিয়াল: +8801895613801
+
+১১. ডাঃ কামরুল আহসান চৌধুরী
+- বিশেষজ্ঞতা: নবজাতক ও শিশুরোগ বিশেষজ্ঞ সার্জন (Pediatric Surgeon)
+- চেম্বার সময়: শনিবার সকাল ১০:০০ টা থেকে সন্ধ্যা ০৭:০০ টা পর্যন্ত
+- সিরিয়াল: +8801895613801
+
+১২. ডাঃ রাজীব আহমেদ চৌধুরী
+- বিশেষজ্ঞতা: নবজাতক ও শিশুরোগ বিশেষজ্ঞ সার্জন
+- চেম্বার সময়: শনিবার দুপুর ০১:০০ টা থেকে দুপুর ০২:০০ টা পর্যন্ত
+- সিরিয়াল: +8801895613801
+
+১৩. ডাঃ ওয়াহিদা সুলতানা
+- বিশেষজ্ঞতা: গাইনী, বন্ধ্যাত্ব ও স্ত্রীরোগ চিকিৎসক
+- চেম্বার সময়: শনিবার সকাল ১০:০০ টা থেকে দুপুর ১২:০০ টা পর্যন্ত
+- সিরিয়াল: +8801895613801
+
+১৪. ডাঃ তুহিন সারওয়ার
+- বিশেষজ্ঞতা: ইউরোলজি চিকিৎসক
+- চেম্বার সময়: শনিবার দুপুর ০২:০০ টা থেকে রাত ০৮:০০ টা পর্যন্ত
+- সিরিয়াল: +8801895613801
+
+-------------------------------------------------------------
+[সিরিয়াল গ্রহণ ও রোগীদের জন্য প্রয়োজনীয় নির্দেশিকা]
+- সিরিয়াল নেওয়ার নিয়ম: প্রতিদিন সকাল থেকেই সিরিয়াল বুকিং নেওয়া হয়। সিরিয়ালের জন্য সরাসরি কল করুন: +8801895613801।
+- লোকেশন বা ঠিকানা নির্দেশিকা: নোয়াখালী মাইজদী হাসপাতাল রোড, পুরাতন পাসপোর্ট অফিসের ঠিক বিপরীত পাশে ট্রাস্ট ওয়ান হসপিটাল অবস্থিত।
+- রোগীদের সর্বদা সময়মতো উপস্থিত থাকতে এবং পূর্বের সকল প্রেসক্রিপশন ও রিপোর্ট সাথে নিয়ে আসার পরামর্শ দেওয়া হয়।`;
+
+    let activeKnowledge = DEFAULT_KNOWLEDGE;
+    let conversationHistory = [];
+
+    // Initialize Knowledge
+    function initKnowledge() {
+      kbTextInput.value = activeKnowledge;
+      updateWordCountBadge();
+
+      // If running through server, sync from knowledge.json
+      if (window.location.protocol.startsWith('http')) {
+        fetch('/api/knowledge')
+          .then(r => r.json())
+          .then(data => {
+            if (data && data.knowledgeText) {
+              activeKnowledge = data.knowledgeText;
+              kbTextInput.value = activeKnowledge;
+              localStorage.setItem('alpo_knowledge_text', activeKnowledge);
+              updateWordCountBadge();
+            }
+          })
+          .catch(() => {});
+      }
+    }
+    initKnowledge();
+
+    function updateWordCountBadge() {
+      const words = activeKnowledge.trim().split(/\s+/).filter(Boolean).length;
+      kbWordCount.textContent = `${words} শব্দ`;
+    }
+
+    // Modal Handlers
+    function openKnowledgeModal() {
+      kbTextInput.value = activeKnowledge;
+      kbModal.classList.add('active');
+    }
+    document.getElementById('openKbBtn').addEventListener('click', openKnowledgeModal);
+
+    function closeKnowledgeModal() {
+      kbModal.classList.remove('active');
+    }
+
+    function switchKbTab(tabId, btn) {
+      document.querySelectorAll('.kb-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+
+    // Save Knowledge
+    async function saveKnowledge() {
+      activeKnowledge = kbTextInput.value.trim() || DEFAULT_KNOWLEDGE;
+      localStorage.setItem('alpo_knowledge_text', activeKnowledge);
+      updateWordCountBadge();
+
+      // Also persist to server.js if running
+      if (window.location.protocol.startsWith('http')) {
+        try {
+          await fetch('/api/knowledge', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ knowledgeText: activeKnowledge })
+          });
+        } catch (e) {
+          console.warn('Could not persist to backend knowledge.json', e);
+        }
+      }
+
+      closeKnowledgeModal();
+      showToast('✅ Alpo Agent-এর নলেজ বেস সফলভাবে সেভ হয়েছে!');
+    }
+
+    function resetDefaultKnowledge() {
+      if (confirm('আপনি কি পূর্বনির্ধারিত ডিফল্ট তথ্যে ফিরে যেতে চান?')) {
+        kbTextInput.value = DEFAULT_KNOWLEDGE;
+      }
+    }
+
+    // Google Docs Import
+    async function importGoogleDoc() {
+      const url = document.getElementById('gdocUrlInput').value.trim();
+      const status = document.getElementById('fetchDocStatus');
+      if (!url) {
+        status.textContent = '❌ অনুগ্রহ করে গুগল ডকসের লিঙ্ক দিন।';
+        return;
+      }
+
+      status.textContent = 'ডকুমেন্ট আনা হচ্ছে, অপেক্ষা করুন...';
+
+      // Extract Doc ID
+      const match = url.match(/\/document\/d\/([a-zA-Z0-9-_]+)/);
+      if (!match || !match[1]) {
+        status.textContent = '❌ সঠিক গুগল ডকস লিঙ্ক পাওয়া যায়নি।';
+        return;
+      }
+
+      const docId = match[1];
+      const fetchUrl = `https://docs.google.com/document/d/${docId}/export?format=txt`;
+
+      try {
+        let text = '';
+        // Try direct fetch or via backend endpoint
+        if (window.location.protocol.startsWith('http')) {
+          const res = await fetch('/api/fetch-doc', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url })
+          });
+          const d = await res.json();
+          if (res.ok && d.text) text = d.text;
+          else throw new Error(d.error || 'Failed');
+        } else {
+          // Direct fetch
+          const res = await fetch(fetchUrl);
+          if (!res.ok) throw new Error('Google Doc not public');
+          text = await res.text();
+        }
+
+        kbTextInput.value += `\n\n=== GOOGLE DOCS IMPORT (${new Date().toLocaleDateString()}) ===\n` + text;
+        status.textContent = `✅ সফল হয়েছে! ${text.length} অক্ষর যুক্ত হয়েছে। এখন 'সেভ করুন' বাটনে ক্লিক করুন।`;
+      } catch (err) {
+        status.textContent = '❌ লিঙ্ক থেকে সরাসরি রিড করা সম্ভব হয়নি। গুগল ডকসে "Share -> Anyone with the link" নিশ্চিত করুন অথবা ডকসের লেখা কপি করে "সরাসরি টেক্সট" ট্যাবে পেস্ট করুন।';
+      }
+    }
+
+    // File Upload Handler
+    document.getElementById('fileUploadInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      const status = document.getElementById('fileUploadStatus');
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        kbTextInput.value += `\n\n=== UPLOADED FILE (${file.name}) ===\n` + event.target.result;
+        status.textContent = `✅ "${file.name}" সফলভাবে যুক্ত হয়েছে! এখন 'সেভ করুন' বাটনে ক্লিক করুন।`;
+      };
+      reader.onerror = function() {
+        status.textContent = '❌ ফাইল পড়তে সমস্যা হয়েছে।';
+      };
+      reader.readAsText(file);
+    });
+
+    // Auto-resize textarea
+    userInput.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight < 160 ? this.scrollHeight : 160) + 'px';
+    });
+
+    // Enter to submit
+    userInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        chatForm.dispatchEvent(new Event('submit'));
+      }
+    });
+
+    function sendSuggestion(text) {
+      userInput.value = text;
+      chatForm.dispatchEvent(new Event('submit'));
+    }
+
+    function appendMessage(role, text, model = '') {
+      if (welcomeCard) {
+        welcomeCard.style.display = 'none';
+      }
+
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `message ${role}`;
+
+      const avatar = document.createElement('div');
+      avatar.className = 'avatar';
+      avatar.textContent = role === 'user' ? 'U' : 'AI';
+
+      const bubbleWrapper = document.createElement('div');
+      bubbleWrapper.className = 'bubble-wrapper';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      bubble.innerHTML = formatMarkdown(text);
+
+      bubbleWrapper.appendChild(bubble);
+
+      if (role === 'bot') {
+        const infoTag = document.createElement('div');
+        infoTag.className = 'bot-info-tag';
+        infoTag.innerHTML = `<span>Alpo Agent</span>${model ? ` • <span>${model}</span>` : ''}`;
+        bubbleWrapper.appendChild(infoTag);
+      }
+
+      msgDiv.appendChild(avatar);
+      msgDiv.appendChild(bubbleWrapper);
+      chatContainer.appendChild(msgDiv);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    function showTypingIndicator() {
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'message bot';
+      typingDiv.id = 'typingIndicator';
+
+      const avatar = document.createElement('div');
+      avatar.className = 'avatar';
+      avatar.textContent = 'AI';
+
+      const bubbleWrapper = document.createElement('div');
+      bubbleWrapper.className = 'bubble-wrapper';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble typing-dots';
+      bubble.innerHTML = `
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      `;
+
+      bubbleWrapper.appendChild(bubble);
+      typingDiv.appendChild(avatar);
+      typingDiv.appendChild(bubbleWrapper);
+      chatContainer.appendChild(typingDiv);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    function removeTypingIndicator() {
+      const typingIndicator = document.getElementById('typingIndicator');
+      if (typingIndicator) typingIndicator.remove();
+    }
+
+    function formatMarkdown(text) {
+      if (!text) return '';
+      let escaped = text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      // Code blocks
+      escaped = escaped.replace(/```([a-z]*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
+      // Inline code
+      escaped = escaped.replace(/`([^`]+)`/g, '<code>$1</code>');
+      // Bold
+      escaped = escaped.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      // Italic
+      escaped = escaped.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+
+      // WhatsApp links & standard markdown links
+      escaped = escaped.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, (match, linkText, url) => {
+        if (url.includes('wa.me') || url.includes('whatsapp.com')) {
+          return `<br><a href="${url}" target="_blank" rel="noopener noreferrer" class="whatsapp-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.96.584 1.884.912 2.796.913 3.179 0 5.767-2.587 5.767-5.766.001-3.187-2.575-5.77-5.767-5.77zm0 10.366c-.846 0-1.677-.228-2.4-.658l-.172-.102-1.782.467.476-1.737-.113-.18c-.473-.753-.722-1.63-.722-2.522 0-2.535 2.062-4.598 4.6-4.598 1.228 0 2.383.479 3.25 1.348.868.868 1.346 2.022 1.345 3.251 0 2.536-2.063 4.599-4.599 4.599z"/>
+            </svg>
+            ${linkText}
+          </a><br>`;
+        }
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer">${linkText}</a>`;
+      });
+
+      // Line breaks
+      escaped = escaped.replace(/\n/g, '<br>');
+      return escaped;
+    }
+
+    // Gemini API Direct Fallback
+    const API_KEY = window.GEMINI_API_KEY || '';
+    const FALLBACK_MODELS = [
+      'gemini-flash-latest',
+      'gemini-3.5-flash',
+      'gemini-3.5-flash-lite',
+      'gemini-flash-lite-latest',
+      'gemini-3.8-flash'
+    ];
+
+    function buildSystemInstruction() {
+      return `You are Alpo Agent (আলপো এজেন্ট), the official intelligent AI Helpdesk & Serial Booking Assistant for Trust One Hospital (Pvt.) [ট্রাস্ট ওয়ান হসপিটাল (প্রাঃ)], Maijdee, Noakhali.
+When asked 'তুমি কে?', 'tumi k?', 'who are you?', or about your identity, you must ALWAYS state: 'আমি ট্রাস্ট ওয়ান হসপিটাল (Trust One Hospital)-এর স্মার্ট এআই অ্যাসিস্ট্যান্ট (Alpo Agent)। আমি আপনাকে হাসপাতালের ডাক্তারদের তালিকা, সময়সূচি, সেবা ও হোয়াটসঅ্যাপে সিরিয়াল বুকিং সংক্রান্ত তথ্য দিয়ে সাহায্য করতে পারি।'
+
+Here is the official TRUST ONE HOSPITAL KNOWLEDGE BASE:
+=== KNOWLEDGE BASE START ===
+${activeKnowledge}
+=== KNOWLEDGE BASE END ===
+
+CRITICAL SERIAL BOOKING AUTOMATION RULES:
+1. যখনই ব্যবহারকারী কোনো ডাক্তারের সিরিয়াল নিতে বা বুক করতে চাইবে (যেমন: "সিরিয়াল দাও", "onar ekta serial daw", "serial book korte chai", "সিরিয়াল লাগবে", ইত্যাদি):
+   - কখনোই বলবে না "আমি সরাসরি সিরিয়াল বুক করতে পারি না"!
+   - সরাসরি রোগীর সিরিয়াল কনফার্ম করার জন্য এই ৩টি তথ্য চেয়ে নেবে:
+     ১. রোগীর নাম (Patient Name):
+     ২. রোগীর বয়স (Age):
+     ৩. মোবাইল নম্বর (Phone Number):
+     (ডাক্তারের নাম যদি আগে না জেনে থাকো তবে জিজ্ঞেস করবে)।
+2. ব্যবহারকারী যখন রোগীর নাম, বয়স ও ফোন নম্বর প্রদান করবে (বা মেসেজে একসাথে লিখবে):
+   - তথ্যগুলো দিয়ে একটি সুন্দর সিরিয়াল সামারি লিখবে।
+   - এবং ট্রাস্ট ওয়ান হসপিটালের অফিশিয়াল সিরিয়াল ডেস্ক (+8801895613801)-এ হোয়াটসঅ্যাপ মেসেজ পাঠানোর জন্য সরাসরি ক্লিকেবল লিংক দিয়ে দেবে:
+     [📲 হোয়াটসঅ্যাপে সিরিয়াল বুকিং পাঠান (Send via WhatsApp)](https://wa.me/8801895613801?text=URL_ENCODED_MESSAGE)
+     (যেখানে text প্যারামিটারে বাংলা মেসেজটি URL encoded থাকবে যেমন রোগীর নাম, বয়স, ফোন, ডাক্তারের নাম ও সময়)।
+   - রোগীকে বলে দেবে যে উপরের সবুজ বাটনে ক্লিক করলেই সরাসরি হসপিটালের হোয়াটসঅ্যাপে মেসেজ চলে যাবে এবং সিরিয়াল নিশ্চিত করা হবে।
+3. সবসময় অত্যন্ত আন্তরিক, বিনয়ী ও সেবামূলক ভাষায় উত্তর দেবে।`;
+    }
+
+    async function callGeminiDirectly(history) {
+      let lastError = null;
+      const sysInstruction = buildSystemInstruction();
+
+      for (const model of FALLBACK_MODELS) {
+        try {
+          const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${API_KEY}`;
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: history,
+              systemInstruction: {
+                parts: [{ text: sysInstruction }]
+              },
+              generationConfig: {
+                temperature: 0.7,
+                topP: 0.95,
+                maxOutputTokens: 2048
+              }
+            })
+          });
+
+          const data = await res.json();
+          if (res.ok && data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+            return {
+              text: data.candidates[0].content.parts[0].text,
+              model: model
+            };
+          }
+          const errMsg = data.error?.message || `HTTP ${res.status}`;
+          lastError = new Error(errMsg);
+        } catch (err) {
+          lastError = err;
+        }
+      }
+      throw lastError || new Error('All Gemini models failed to respond.');
+    }
+
+    async function getChatResponse(history) {
+      // 1. Try local backend server first
+      try {
+        const endpoint = window.location.protocol.startsWith('http') ? '/api/chat' : 'http://localhost:3000/api/chat';
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 3000);
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ history }),
+          signal: controller.signal
+        });
+        clearTimeout(timeout);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.text) return data;
+        }
+      } catch (e) {
+        // Backend server unreachable, smoothly fallback to direct Google Gemini API
+      }
+
+      // 2. Direct client-side Google Gemini API call
+      return await callGeminiDirectly(history);
+    }
+
+    // Submit handler
+    chatForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      appendMessage('user', text);
+      userInput.value = '';
+      userInput.style.height = '52px';
+      sendBtn.disabled = true;
+
+      conversationHistory.push({
+        role: 'user',
+        parts: [{ text }]
+      });
+
+      showTypingIndicator();
+
+      try {
+        const data = await getChatResponse(conversationHistory);
+        removeTypingIndicator();
+
+        if (data && data.text) {
+          conversationHistory.push({
+            role: 'model',
+            parts: [{ text: data.text }]
+          });
+          appendMessage('bot', data.text, data.model);
+        } else {
+          appendMessage('bot', 'দুঃখিত, কোনো সমস্যা হয়েছে: ' + (data?.error || 'Unknown error'));
+          conversationHistory.pop();
+        }
+      } catch (err) {
+        removeTypingIndicator();
+        let errorMsg = '⚠️ **সার্ভার সংযোগ সমস্যা (Connection Issue):** ' + err.message + '\n\n';
+        errorMsg += '**সহজ সমাধান:**\n';
+        errorMsg += '১. টার্মিনালে **`npm start`** চালু করুন অথবা ফোল্ডারে থাকা **`start-web.bat`** ফাইলে ডাবল-ক্লিক করুন।\n';
+        errorMsg += '২. ব্রাউজারে সরাসরি **[http://localhost:3000](http://localhost:3000)** ওপেন করুন।\n';
+        errorMsg += '৩. আপনার ইন্টারনেট সংযোগ সচল আছে কি না নিশ্চিত করুন।';
+        appendMessage('bot', errorMsg);
+        conversationHistory.pop();
+      } finally {
+        sendBtn.disabled = false;
+        userInput.focus();
+      }
+    });
+
+    // Clear chat
+    clearBtn.addEventListener('click', () => {
+      conversationHistory = [];
+      chatContainer.innerHTML = '';
+      if (welcomeCard) {
+        chatContainer.appendChild(welcomeCard);
+        welcomeCard.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

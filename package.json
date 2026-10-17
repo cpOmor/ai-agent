@@ -1,0 +1,16 @@
+{
+  "name": "trustone-hospital",
+  "version": "1.0.0",
+  "description": "A lightweight Gemini AI chat automation tool",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "cli": "node cli.js"
+  },
+  "keywords": ["gemini", "ai", "chat"],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "whatsapp": {
+    "enabled": true,
+    "phoneNumber": "+8801895613801",
+    "verifyToken": "trustone_wa_verify_2026",
+    "phoneNumberId": ""
+  },
+  "facebook": {
+    "enabled": false,
+    "pageId": "",
+    "verifyToken": "trustone_verify_token_2026",
+    "pageAccessToken": ""
+  },
+  "telegram": {
+    "enabled": false,
+    "botUsername": "admin@messmanager.com",
+    "botToken": ""
+  }
+}

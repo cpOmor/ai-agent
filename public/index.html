@@ -801,38 +801,6 @@
     </div>
   </div>
 
-  <!-- API Key Modal -->
-  <div class="modal-backdrop" id="keyModalBackdrop">
-    <div class="modal-card" style="max-width: 500px;">
-      <div class="modal-header">
-        <div class="modal-title">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="7.5" cy="15.5" r="5.5"></circle>
-            <path d="m21 2-9.6 9.6"></path>
-            <path d="m15.5 7.5 3 3L22 7l-3-3"></path>
-          </svg>
-          Gemini API Key সেটিংস
-        </div>
-        <button class="modal-close" onclick="closeKeyModal()">&times;</button>
-      </div>
-      <div class="modal-body" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-        <p class="helper-text">
-          ওয়েব হোস্ট (Vercel) বা যেকোনো ব্রাউজারে চ্যাটবট সরাসরি সচল রাখতে আপনার Google Gemini API Key প্রবেশ করান:
-        </p>
-        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-          <label style="font-size: 0.85rem; font-weight: 600; color: #94a3b8;">Google Gemini API Key:</label>
-          <input type="password" class="input-field" id="userApiKeyInput" placeholder="আপনার API Key এখানে পেস্ট করুন..." />
-        </div>
-        <div style="padding: 0.85rem; background: rgba(37, 99, 235, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 10px; font-size: 0.82rem; color: #93c5fd; line-height: 1.5;">
-          💡 <strong>টিপস:</strong> আপনার যদি API Key না থাকে, তবে <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #38bdf8; text-decoration: underline;">Google AI Studio</a> থেকে একদম ফ্রিতে ১ মিনিটে API Key তৈরি করে নিতে পারেন। এটি আপনার লোকাল ব্রাউজারে সংরক্ষিত থাকবে।
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-danger" onclick="clearSavedKey()">মুছে ফেলুন</button>
-        <button class="btn btn-primary" onclick="saveApiKey()">💾 সেভ করুন (Save Key)</button>
-      </div>
-    </div>
-  </div>
 
   <div class="toast" id="toastMessage">নলেজ বেস সফলভাবে সেভ হয়েছে!</div>
 

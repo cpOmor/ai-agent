@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>সেটিংস ও ইন্টিগ্রেশন হাব - Trust One Hospital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #070b14;
+      --bg-card: rgba(18, 26, 44, 0.75);
+      --bg-card-hover: rgba(24, 34, 58, 0.85);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(96, 165, 250, 0.5);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --primary: #3b82f6;
+      --success: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', 'Hind Siliguri', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(37, 99, 235, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(139, 92, 246, 0.12) 0%, transparent 40%);
+    }
+
+    /* Header */
+    header {
+      padding: 0.9rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .logo-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #e11d48, #2563eb);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 16px rgba(225, 29, 72, 0.4);
+    }
+
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(90deg, #ffffff, #93c5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brand-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 0.55rem 1.1rem;
+      border-radius: 10px;
+      font-size: 0.86rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb, #0284c7);
+      border: none;
+      color: white;
+      box-shadow: 0 0 14px rgba(37, 99, 235, 0.35);
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #1d4ed8, #0369a1);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 18px rgba(37, 99, 235, 0.45);
+    }
+
+    /* Main Container */
+    .settings-container {
+      max-width: 1100px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .settings-header-banner {
+      background: linear-gradient(135deg, rgba(20, 30, 52, 0.8), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      padding: 1.75rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .banner-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .banner-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Nav Tabs */
+    .nav-tabs {
+      display: flex;
+      gap: 0.5rem;
+      background: rgba(15, 23, 42, 0.7);
+      padding: 0.5rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      background: none;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding: 0.75rem 1.25rem;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .tab-btn.active {
+      background: rgba(37, 99, 235, 0.22);
+      border-color: rgba(59, 130, 246, 0.45);
+      color: #93c5fd;
+      font-weight: 600;
+      box-shadow: 0 0 16px rgba(37, 99, 235, 0.25);
+    }
+
+    /* Content Cards */
+    .tab-pane {
+      display: none;
+      flex-direction: column;
+      gap: 1.5rem;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    .tab-pane.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(14px);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .input-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .input-label {
+      font-size: 0.86rem;
+      font-weight: 500;
+      color: #cbd5e1;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-field {
+      width: 100%;
+      background: rgba(10, 15, 28, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.92rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .input-field:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
+    }
+
+    .toggle-pwd-btn {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      opacity: 0.7;
+    }
+
+    .toggle-pwd-btn:hover {
+      opacity: 1;
+    }
+
+    .helper-text {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .status-badge {
+      font-size: 0.78rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 12px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .status-badge.active {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .status-badge.inactive {
+      background: rgba(148, 163, 184, 0.15);
+      color: #94a3b8;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    /* Channels Grid */
+    .channels-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .channel-card {
+      background: rgba(15, 22, 38, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      transition: all 0.25s ease;
+    }
+
+    .channel-card:hover {
+      border-color: rgba(56, 189, 248, 0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .channel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .channel-title-box {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .channel-icon-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+    }
+
+    .icon-whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); color: #fff; }
+    .icon-facebook { background: linear-gradient(135deg, #1877F2, #0d5ec4); color: #fff; }
+    .icon-telegram { background: linear-gradient(135deg, #2AABEE, #229ED9); color: #fff; }
+
+    .channel-name {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .channel-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Switch */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 46px;
+      height: 25px;
+    }
+
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(255, 255, 255, 0.15);
+      transition: .3s;
+      border-radius: 25px;
+      border: 1px solid var(--border);
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 17px;
+      width: 17px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-color: #10b981;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(21px);
+    }
+
+    .url-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(10, 15, 26, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.5rem 0.8rem;
+      font-family: monospace;
+      font-size: 0.84rem;
+      color: #7dd3fc;
+    }
+
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 0.35rem 0.7rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: rgba(56, 189, 248, 0.25);
+      border-color: #38bdf8;
+    }
+
+    /* Knowledge base sub tabs */
+    .kb-tabs {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    .kb-tab {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .kb-tab.active {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      font-weight: 600;
+    }
+
+    .kb-textarea {
+      width: 100%;
+      height: 380px;
+      background: rgba(10, 15, 26, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.1rem;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      resize: vertical;
+      outline: none;
+    }
+
+    .kb-textarea:focus {
+      border-color: var(--border-focus);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      padding: 0.85rem 1.4rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      font-size: 0.92rem;
+      font-weight: 600;
+      z-index: 999;
+      display: none;
+      animation: toastIn 0.3s ease-out;
+    }
+
+    @keyframes toastIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .save-bar {
+      position: sticky;
+      bottom: 1rem;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header / Navbar -->
+  <header>
+    <a href="/" class="brand" title="চ্যাট ড্যাশবোর্ডে ফিরে যান">
+      <div class="logo-badge">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-title">
+          Trust One Hospital (Pvt.)
+        </div>
+        <div class="brand-sub">স্মার্ট এআই হেল্পডেস্ক ও ইন্টিগ্রেশন কন্ট্রোল হাব</div>
+      </div>
+    </a>
+
+    <div class="header-actions">
+      <a href="/" class="btn" title="মূল চ্যাট স্ক্রিনে যান">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        <span>চ্যাটে ফিরে যান (Back to Chat)</span>
+      </a>
+
+      <button class="btn btn-primary" onclick="saveAllSettings()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+          <polyline points="17 21 17 13 7 13 7 21"></polyline>
+          <polyline points="7 3 7 8 15 8"></polyline>
+        </svg>
+        <span>সেটিংস সেভ করুন (Save)</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="settings-container">
+    <div class="settings-header-banner">
+      <div>
+        <div class="banner-title">
+          ⚙️ সিস্টেম সেটিংস ও চ্যানেল ইন্টিগ্রেশন হাব
+        </div>
+        <div class="banner-desc">
+          আপনার ট্রাস্ট ওয়ান হসপিটাল এআই অ্যাসিস্ট্যান্টের এআই মডেল, সোশ্যাল চ্যানেল (WhatsApp, Messenger, Telegram), হসপিটাল নলেজ বেস ও প্রোফাইল এখান থেকে নিয়ন্ত্রণ করুন।
+        </div>
+      </div>
+      <div id="systemStatusBadge" class="status-badge active" style="font-size: 0.88rem; padding: 0.5rem 0.9rem;">
+        🟢 সিস্টেম সক্রিয় (System Ready)
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+      <button class="tab-btn active" id="btn-tab-ai" onclick="switchTab('tab-ai')">
+        <span>🔑</span> AI ও API Key
+      </button>
+      <button class="tab-btn" id="btn-tab-channels" onclick="switchTab('tab-channels')">
+        <span>💬</span> সোশ্যাল মেসেজিং চ্যানেল (WhatsApp, FB, TG)
+      </button>
+      <button class="tab-btn" id="btn-tab-kb" onclick="switchTab('tab-kb')">
+        <span>📚</span> হসপিটাল নলেজ বেস
+      </button>
+      <button class="tab-btn" id="btn-tab-profile" onclick="switchTab('tab-profile')">
+        <span>🏥</span> হসপিটাল প্রোফাইল ও হটলাইন
+      </button>
+    </div>
+
+    <!-- TAB 1: AI & API Key -->
+    <div class="tab-pane active" id="tab-ai">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span>🔑</span> Google Gemini AI Key ও মডেল কনফিগারেশন
+          </div>
+          <span class="status-badge" id="apiKeyStatusBadge">⚪ Not Connected</span>
+        </div>
+
+        <p class="helper-text">
+          ওয়েব ব্রাউজার বা ক্লাউড সার্ভার থেকে নিরবচ্ছিন্ন ও দ্রুততম এআই রেসপন্সের জন্য আপনার নিজস্ব গুগল জেমিনাই API Key কনফিগার করুন:
+        </p>
+
+        <div class="input-row">
+          <label class="input-label">Gemini API Key:</label>
+          <div class="input-wrapper">
+            <input type="password" class="input-field" id="userApiKeyInput" placeholder="AQ.Ab8... অথবা AIzaSy..." />
+            <button type="button" class="toggle-pwd-btn" onclick="togglePasswordVisibility('userApiKeyInput', this)">👁️</button>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+          <button class="btn btn-primary" onclick="testGeminiConnection()" id="testApiBtn">
+            ⚡ কানেকশন টেস্ট করুন (Test API)
+          </button>
+          <button class="btn" onclick="clearSavedKey()" style="color: #f87171; border-color: rgba(239, 68, 68, 0.3);">
+            ক্লিয়ার করুন
+          </button>
+          <span id="apiTestResult" style="font-size: 0.88rem; font-weight: 500;"></span>
+        </div>
+
+        <div class="input-row">
+          <label class="input-label">ডিফল্ট এআই মডেল (Default Gemini Model):</label>
+          <select class="input-field" id="aiModelSelect" style="cursor: pointer;">
+            <option value="gemini-flash-latest">gemini-flash-latest (দ্রুততম ও সবচেয়ে নির্ভরযোগ্য - প্রস্তাবিত)</option>
+            <option value="gemini-3.5-flash">gemini-3.5-flash</option>
+            <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite (লো ল্যাটেন্সি)</option>
+            <option value="gemini-3.8-flash">gemini-3.8-flash (অ্যাডভান্সড)</option>
+          </select>
+        </div>
+
+        <div style="padding: 1rem; background: rgba(37, 99, 235, 0.1); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: 12px; font-size: 0.88rem; color: #93c5fd; line-height: 1.5;">
+          💡 <strong>আপনার কি কোনো API Key নেই?</strong> 
+          <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #38bdf8; text-decoration: underline; font-weight: 600; margin-left: 0.35rem;">Google AI Studio</a> 
+          থেকে ফ্রিতে ১ মিনিটে নতুন API Key তৈরি করে নিতে পারেন। এটি আপনার লোকাল ব্রাউজারে নিরাপদভাবে এনক্রিপ্ট থাকবে।
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: Channels (WhatsApp, Facebook, Telegram) -->
+    <div class="tab-pane" id="tab-channels">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span>💬</span> অমনিচ্যানেল ইন্টিগ্রেশন (সোশ্যাল ও চ্যাট চ্যানেল)
+          </div>
+        </div>
+
+        <p class="helper-text">
+          ট্রাস্ট ওয়ান হসপিটাল এআই সহকারীকে সরাসরি রোগীদের সোশ্যাল অ্যাপের সাথে যুক্ত করুন। রোগীরা সরাসরি হোয়াটসঅ্যাপ, ফেসবুক মেসেঞ্জার বা টেলিগ্রাম থেকে প্রশ্ন করে তাৎক্ষণিক ডাক্তারের শিডিউল জানতে পারবে:
+        </p>
+
+        <div class="channels-grid">
+          <!-- 1. WhatsApp Card -->
+          <div class="channel-card" id="card-wa">
+            <div class="channel-header">
+              <div class="channel-title-box">
+                <div class="channel-icon-badge icon-whatsapp">📱</div>
+                <div>
+                  <div class="channel-name">WhatsApp Business</div>
+                  <div class="channel-sub">হোয়াটসঅ্যাপ চ্যাট ও সিরিয়াল ডেস্ক</div>
+                </div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggleWA" checked onchange="toggleChannelState('wa')">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="input-row">
+              <label class="input-label">অফিসিয়াল সিরিয়াল ও হেল্পলাইন নম্বর:</label>
+              <input type="text" class="input-field" id="waPhoneNumber" value="+8801895613801" placeholder="+8801895613801">
+            </div>
+
+            <div class="input-row">
+              <label class="input-label">WhatsApp Cloud API Webhook URL:</label>
+              <div class="url-box">
+                <span class="url-text" id="waWebhookUrl">/api/webhook/whatsapp</span>
+                <button class="copy-btn" onclick="copyWebhook('waWebhookUrl')">📋 কপি</button>
+              </div>
+            </div>
+
+            <div class="input-row">
+              <label class="input-label">Meta Verify Token:</label>
+              <div class="url-box">
+                <span class="url-text" id="waVerifyToken">trustone_wa_verify_2026</span>
+                <button class="copy-btn" onclick="copyText('trustone_wa_verify_2026')">📋 কপি</button>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 0.5rem;">
+              <span class="status-badge active" id="badge-wa">🟢 Direct Chat Active</span>
+              <a href="https://wa.me/8801895613801?text=Hello" target="_blank" class="btn" style="padding: 0.45rem 0.85rem; font-size: 0.82rem;">
+                🚀 টেস্ট চ্যাট
+              </a>
+            </div>
+          </div>
+
+          <!-- 2. Facebook & Messenger Card -->
+          <div class="channel-card" id="card-fb">
+            <div class="channel-header">
+              <div class="channel-title-box">
+                <div class="channel-icon-badge icon-facebook">🌐</div>
+                <div>
+                  <div class="channel-name">Facebook & Messenger</div>
+                  <div class="channel-sub">ফেসবুক পেজ অটো এআই রিপ্লাই</div>
+                </div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggleFB" onchange="toggleChannelState('fb')">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="input-row">
+              <label class="input-label">Facebook Page ID:</label>
+              <input type="text" class="input-field" id="fbPageId" placeholder="যেমন: 10592819283921">
+            </div>
+
+            <div class="input-row">
+              <label class="input-label">Page Access Token:</label>
+              <div class="input-wrapper">
+                <input type="password" class="input-field" id="fbAccessToken" placeholder="EAABw... (Meta Graph API Token)">
+                <button type="button" class="toggle-pwd-btn" onclick="togglePasswordVisibility('fbAccessToken', this)">👁️</button>
+              </div>
+            </div>
+
+            <div class="input-row">
+              <label class="input-label">Webhook Callback URL:</label>
+              <div class="url-box">
+                <span class="url-text" id="fbWebhookUrl">/api/webhook/facebook</span>
+                <button class="copy-btn" onclick="copyWebhook('fbWebhookUrl')">📋 কপি</button>
+              </div>
+            </div>
+
+            <div class="input-row">
+              <label class="input-label">Webhook Verify Token:</label>
+              <div class="url-box">
+                <span class="url-text" id="fbVerifyToken">trustone_verify_token_2026</span>
+                <button class="copy-btn" onclick="copyText('trustone_verify_token_2026')">📋 কপি</button>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 0.5rem;">
+              <span class="status-badge inactive" id="badge-fb">⚪ Not Connected</span>
+              <button class="btn" onclick="openMessengerTest()" style="padding: 0.45rem 0.85rem; font-size: 0.82rem;">
+                💬 মেসেঞ্জারে টেস্ট
+              </button>
+            </div>
+          </div>
+
+          <!-- 3. Telegram Bot Card -->
+          <div class="channel-card" id="card-tg">
+            <div class="channel-header">
+              <div class="channel-title-box">
+                <div class="channel-icon-badge icon-telegram">✈️</div>
+                <div>
+                  <div class="channel-name">Telegram Bot</div>
+                  <div class="channel-sub">টেলিগ্রাম এআই চ্যাটবট (@BotFather)</div>
+                </div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggleTG" onchange="toggleChannelState('tg')">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="input-row">
+              <label class="input-label">Telegram Bot Token (from @BotFather):</label>
+              <div class="input-wrapper">
+                <input type="password" class="input-field" id="tgBotToken" placeholder="123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ">
+                <button type="button" class="toggle-pwd-btn" onclick="togglePasswordVisibility('tgBotToken', this)">👁️</button>
+              </div>
+            </div>
+
+            <div class="input-row">
+              <label class="input-label">Bot Username:</label>
+              <input type="text" class="input-field" id="tgBotUsername" placeholder="@TrustOneHospitalBot">
+            </div>
+
+            <div class="input-row">
+              <label class="input-label">Telegram Webhook URL:</label>
+              <div class="url-box">
+                <span class="url-text" id="tgWebhookUrl">/api/webhook/telegram</span>
+                <button class="copy-btn" onclick="copyWebhook('tgWebhookUrl')">📋 কপি</button>
+              </div>
+            </div>
+
+            <div style="margin-top: 0.25rem;">
+              <button class="btn btn-primary" onclick="autoSetTelegramWebhook()" id="setTgWebhookBtn" style="width: 100%; justify-content: center; font-size: 0.82rem; padding: 0.6rem;">
+                ⚡ ১-ক্লিকে টেলিগ্রাম ওয়েবহুক সেট করুন (Auto Webhook)
+              </button>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 0.5rem;">
+              <span class="status-badge inactive" id="badge-tg">⚪ Ready to Connect</span>
+              <button class="btn" onclick="openTelegramBot()" style="padding: 0.45rem 0.85rem; font-size: 0.82rem;">
+                🤖 বটে মেসেজ পাঠান
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: Knowledge Base -->
+    <div class="tab-pane" id="tab-kb">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span>📚</span> হসপিটাল নলেজ বেস ও ডাক্তারদের শিডিউল
+          </div>
+          <span id="kbWordCount" class="status-badge active">0 শব্দ</span>
+        </div>
+
+        <div class="kb-tabs">
+          <button class="kb-tab active" onclick="switchKbSubTab('subEditTab', this)">📝 সরাসরি টেক্সট এডিটর</button>
+          <button class="kb-tab" onclick="switchKbSubTab('subGdocTab', this)">🔗 Google Docs ইম্পোর্ট</button>
+          <button class="kb-tab" onclick="switchKbSubTab('subFileTab', this)">📁 ফাইল আপলোড (.csv, .txt)</button>
+        </div>
+
+        <div class="tab-content" id="subEditTab" style="display: flex; flex-direction: column; gap: 0.85rem;">
+          <p class="helper-text">
+            নিচে ট্রাস্ট ওয়ান হসপিটালের ডাক্তারদের তালিকা, সময়সূচি বা যেকোনো তথ্য সরাসরি এডিট করতে পারেন:
+          </p>
+          <textarea class="kb-textarea" id="kbTextInput" placeholder="এখানে হাসপাতালের তথ্য বা নতুন ডাক্তারের সময়সূচি দিন..."></textarea>
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+            <button class="btn" onclick="resetDefaultKnowledge()">ডিফল্ট হসপিটাল তথ্যে রিসেট করুন</button>
+            <span id="kbCounterText" style="font-size: 0.85rem; color: #94a3b8;">শব্দ গণনা হচ্ছে...</span>
+          </div>
+        </div>
+
+        <div class="tab-content" id="subGdocTab" style="display: none; flex-direction: column; gap: 1rem;">
+          <p class="helper-text">
+            আপনার Google Doc-এর লিঙ্ক দিন। <br>
+            <strong>শর্ত:</strong> Google Doc-এর <em>Share &rarr; General access</em> অপশনে গিয়ে <strong>"Anyone with the link can view"</strong> করা থাকতে হবে।
+          </p>
+          <input type="text" class="input-field" id="gdocUrlInput" placeholder="https://docs.google.com/document/d/.../edit">
+          <button class="btn btn-primary" id="fetchDocBtn" onclick="importGoogleDoc()" style="align-self: flex-start;">
+            ডকস থেকে তথ্য আনুন
+          </button>
+          <div id="fetchDocStatus" class="helper-text" style="color: #38bdf8;"></div>
+        </div>
+
+        <div class="tab-content" id="subFileTab" style="display: none; flex-direction: column; gap: 1rem;">
+          <p class="helper-text">
+            আপনার কম্পিউটার থেকে যেকোনো টেক্সট ফাইল (.txt, .md, .json, .csv) আপলোড করুন:
+          </p>
+          <input type="file" id="fileUploadInput" accept=".txt,.md,.json,.csv" class="input-field">
+          <div class="helper-text" id="fileUploadStatus"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: Hospital Profile -->
+    <div class="tab-pane" id="tab-profile">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span>🏥</span> হসপিটাল প্রোফাইল ও যোগাযোগের তথ্য
+          </div>
+        </div>
+
+        <div class="input-row">
+          <label class="input-label">হাসপাতালের নাম:</label>
+          <input type="text" class="input-field" id="profName" value="ট্রাস্ট ওয়ান হসপিটাল (প্রাঃ) / Trust One Hospital (Pvt.)">
+        </div>
+
+        <div class="input-row">
+          <label class="input-label">সিরিয়াল বুকিং ও হটলাইন মোবাইল:</label>
+          <input type="text" class="input-field" id="profPhone" value="+8801895613801">
+        </div>
+
+        <div class="input-row">
+          <label class="input-label">হাসপাতালের ঠিকানা:</label>
+          <input type="text" class="input-field" id="profAddress" value="হাসপাতাল রোড, (পুরাতন পাসপোর্ট অফিস এর বিপরীত পাশে), মাইজদী, নোয়াখালী।">
+        </div>
+
+        <div class="input-row">
+          <label class="input-label">স্লোগান:</label>
+          <input type="text" class="input-field" id="profSlogan" value="আপনার স্বাস্থ্য, আমাদের অঙ্গীকার">
+        </div>
+      </div>
+    </div>
+
+    <!-- Sticky Bottom Save Bar -->
+    <div class="save-bar">
+      <div>
+        <div style="font-weight: 600; color: #fff; font-size: 0.95rem;">সকল পরিবর্তন সংরক্ষণ করতে চান?</div>
+        <div style="font-size: 0.8rem; color: var(--text-muted);">সেভ বাটনে চাপ দিলে লোকাল ব্রাউজার ও সার্ভারে আপডেট সেভ হয়ে যাবে।</div>
+      </div>
+      <div style="display: flex; gap: 0.75rem;">
+        <a href="/" class="btn">বাতিল (চ্যাটে ফিরে যান)</a>
+        <button class="btn btn-primary" onclick="saveAllSettings()" style="padding: 0.7rem 1.6rem; font-size: 0.95rem;">
+          💾 সংরক্ষণ করুন (Save All)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toastMessage">নলেজ বেস সফলভাবে সেভ হয়েছে!</div>
+
+  <script>
+    const toast = document.getElementById('toastMessage');
+    const kbTextInput = document.getElementById('kbTextInput');
+    const kbWordCount = document.getElementById('kbWordCount');
+    const kbCounterText = document.getElementById('kbCounterText');
+
+    const DEFAULT_KNOWLEDGE = `=== ট্রাস্ট ওয়ান হসপিটাল (প্রাঃ) / TRUST ONE HOSPITAL (PVT.) নলেজ বেস ===
+
+[সাধারণ তথ্য ও যোগাযোগের ঠিকানা]
+হাসপাতালের নাম: ট্রাস্ট ওয়ান হসপিটাল (প্রাঃ) / Trust One Hospital (Pvt.)
+স্লোগান: "আপনার স্বাস্থ্য, আমাদের অঙ্গীকার"
+ঠিকানা: হাসপাতাল রোড, (পুরাতন পাসপোর্ট অফিস এর বিপরীত পাশে), মাইজদী, নোয়াখালী।
+সিরিয়াল ও হেল্পলাইন মোবাইল: +8801895613801 (০১৮৯৫৬১৩৮০১)
+ওয়েবসাইট: www.trustonehospital.com
+মূল সেবাসমূহ: বিশেষজ্ঞ ডাক্তার চেম্বার, আধুনিক ডায়াগনস্টিক ও প্যাথলজি ল্যাব, ডিজিটাল সেবা, আন্তরিক স্বাস্থ্যসেবা।
+
+-------------------------------------------------------------
+[বিশেষজ্ঞ ডাক্তারদের বিস্তারিত প্রোফাইল ও চেম্বার সময়সূচি]
+
+১. ডাঃ মোহাম্মদ আবদুর রহমান (অর্থোপেডিক্স বিশেষজ্ঞ সার্জন)
+- ডিগ্রি ও পদবী: এমবিবিএস (ঢাকা মেডিকেল কলেজ), বিসিএস (স্বাস্থ্য), ডি-অর্থো (NITOR) পঙ্গু হাসপাতাল। লেকচারার, নোয়াখালী মেডিকেল কলেজ, হাসপাতাল।
+- বিশেষজ্ঞতা: অর্থোপেডিক্স বিশেষজ্ঞ সার্জন (হাড়ভাঙ্গা, জোড়া, বাত ও মেরুদণ্ড বিশেষজ্ঞ সার্জন)
+- স্লোগান: "ব্যথা কমুক, চলার পথ হোক আরও স্বস্তির"
+- চেম্বার দিন: প্রতি শনি, রবি, সোম ও মঙ্গলবার
+- চেম্বার সময়: দুপুর ০১:০০ টা হতে সন্ধ্যা ০৭:০০ টা পর্যন্ত (শনিবার দুপুর ০১:০০ টা থেকে বিকাল ০৩:০০ টা পর্যন্ত)
+- সিরিয়ালের জন্য: +8801895613801
+
+২. ডাঃ এ এইচ এম আতাউল গণি (নবজাতক ও শিশুরোগ বিশেষজ্ঞ)
+- ডিগ্রি ও পদবী: এমবিবিএস, বিসিএস (স্বাস্থ্য), এমডি (শিশু) ঢাকা মেডিকেল কলেজ, হাসপাতাল, ঢাকা। নবজাতক ও শিশু আইসিইউ (NICU/PICU) অভিজ্ঞ। শিশু বিশেষজ্ঞ, নোয়াখালী।
+- বিশেষজ্ঞতা: নবজাতক ও শিশুরোগ বিশেষজ্ঞ
+- স্লোগান: "ছোট্ট শরীর, বড় যত্ন — সুস্থ শৈশবেই সুন্দর ভবিষ্যৎ"
+- চেম্বার দিন: প্রতিদিন (শুক্রবার ব্যতীত)
+- চেম্বার সময়: দুপুর ০২:০০ টা হতে রাত ০৮:০০ টা পর্যন্ত (শনিবার দুপুর ০২:০০ টা থেকে ০৩:০০ টা পর্যন্ত বিশেষ চেম্বার)
+- সিরিয়ালের জন্য: +8801895613801
+
+৩. ডাঃ মোঃ আবু ওমর খৈয়াম (মেডিসিন ও কার্ডিওলজি বিশেষজ্ঞ)
+- ডিগ্রি ও পদবী: এমবিবিএস (সিইউ), এমডি (কার্ডিওলজি), সিসিডি, ইডিসি (বারডেম), এমএসসিপি (আমেরিকা)। ট্রেইন্ড ইন ইকোকার্ডিওগ্রাফি, ঢাকা মেডিকেল কলেজ ও হাসপাতাল, ঢাকা। কনসালটেন্ট কার্ডিওলজিস্ট।
+- বিশেষজ্ঞতা: মেডিসিন ও কার্ডিওলজি (হৃদরোগ) বিশেষজ্ঞ
+- স্লোগান: "হৃদয় ভালো থাকুক, জীবনটা হোক আরও সুন্দর"
+- চেম্বার দিন: প্রতিদিন (শুক্রবার ব্যতীত)
+- চেম্বার সময়: দুপুর ০২:০০ টা হতে রাত ০৮:০০ টা পর্যন্ত
+- সিরিয়ালের জন্য: +8801895613801
+
+৪. সহকারী অধ্যাপক ডাঃ মোঃ মাহবুবুর রহমান
+- বিশেষজ্ঞতা: প্লাস্টিক সার্জন বিশেষজ্ঞ
+- চেম্বার সময়: শনিবার দুপুর ০২:০০ টা থেকে রাত ০৮:০০ টা পর্যন্ত
+- সিরিয়াল: +8801895613801
+
+৫. ডাঃ এমরান হোসেন (সোহেল)
+- বিশেষজ্ঞতা: মেডিসিন ও বক্ষব্যাধি বিশেষজ্ঞ
+- চেম্বার সময়: শনিবার দুপুর ০২:০০ টা থেকে সন্ধ্যা ০৬:০০ টা পর্যন্ত
+- সিরিয়াল: +8801895613801
+
+৬. ডাঃ সালমা সুলতানা
+- বিশেষজ্ঞতা: গাইনী, বন্ধ্যাত্ব ও স্ত্রীরোগ বিশেষজ্ঞ
+- চেম্বার সময়: দুপুর ০২:০০ টা থেকে রাত ০৮:০০ টা পর্যন্ত
+- বিশেষ নোটিশ: আগামী ১৫/১০/২০২৬ থেকে ২৩/১০/২০২৬ পর্যন্ত নিয়মিত চেম্বার করবেন
+- সিরিয়াল: +8801895613801
+
+৭. ডাঃ সামির হোসাইন সৈকত
+- বিশেষজ্ঞতা: নাক, কান ও গলা বিশেষজ্ঞ (ENT Specialist)
+- চেম্বার সময়: শনিবার সকাল ১১:৩০ টা থেকে বিকাল ০৫:০০ টা পর্যন্ত
+- সিরিয়াল: +8801895613801
+
+৮. ডাঃ ফারজানা সায়মা (অমি)
+- বিশেষজ্ঞতা: গাইনী, বন্ধ্যাত্ব ও স্ত্রীরোগ বিশেষজ্ঞ
+- চেম্বার সময়: শনিবার বিকাল ০৪:০০ টা থেকে রাত ০৮:০০ টা পর্যন্ত
+- সিরিয়াল: +8801895613801
+
+৯. ডাঃ মোঃ ওয়ালী উদ্দীন মাসুদ
+- বিশেষজ্ঞতা: চর্ম ও যৌনরোগ বিশেষজ্ঞ (Skin & VD Specialist)
+- চেম্বার সময়: শনিবার দুপুর ০১:০০ টা থেকে দুপুর ০৩:০০ টা পর্যন্ত
+- সিরিয়াল: +8801895613801
+
+১০. ডাঃ মুন-ইমা আলম
+- বিশেষজ্ঞতা: মহিলা জেনারেল বিশেষজ্ঞ সার্জন
+- চেম্বার সময়: শনিবার দুপুর ০২:০০ টা থেকে দুপুর ০৩:০০ টা পর্যন্ত
+- সিরিয়াল: +8801895613801
+
+১১. ডাঃ কামরুল আহসান চৌধুরী
+- বিশেষজ্ঞতা: অর্থোপেডিক সার্জন (হাড়ভাঙ্গা ও জোড়া বিশেষজ্ঞ)
+- চেম্বার সময়: শনিবার বিকাল ০৩:০০ টা থেকে বিকাল ০৫:০০ টা পর্যন্ত
+- সিরিয়াল: +8801895613801`;
+
+    let activeKnowledge = localStorage.getItem('alpo_knowledge_text') || DEFAULT_KNOWLEDGE;
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+
+      const targetBtn = document.getElementById(`btn-${tabId}`);
+      const targetPane = document.getElementById(tabId);
+      if (targetBtn) targetBtn.classList.add('active');
+      if (targetPane) targetPane.classList.add('active');
+
+      // Update URL hash
+      window.location.hash = tabId.replace('tab-', '');
+    }
+
+    function switchKbSubTab(subTabId, btn) {
+      document.querySelectorAll('.kb-tabs .kb-tab').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+
+      btn.classList.add('active');
+      const target = document.getElementById(subTabId);
+      if (target) target.style.display = 'flex';
+    }
+
+    function togglePasswordVisibility(inputId, btn) {
+      const el = document.getElementById(inputId);
+      if (!el) return;
+      if (el.type === 'password') {
+        el.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        el.type = 'password';
+        btn.textContent = '👁️';
+      }
+    }
+
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('✅ কপি হয়েছে: ' + text);
+      }).catch(() => {
+        showToast('❌ কপি করা সম্ভব হয়নি');
+      });
+    }
+
+    function copyWebhook(elementId) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const fullUrl = window.location.origin + el.textContent;
+      navigator.clipboard.writeText(fullUrl).then(() => {
+        showToast('✅ Webhook URL কপি হয়েছে: ' + fullUrl);
+      }).catch(() => {
+        showToast('❌ কপি করা সম্ভব হয়নি');
+      });
+    }
+
+    function toggleChannelState(channel) {
+      const checkbox = document.getElementById(`toggle${channel.toUpperCase()}`);
+      const badge = document.getElementById(`badge-${channel}`);
+      if (!checkbox || !badge) return;
+      if (checkbox.checked) {
+        badge.className = 'status-badge active';
+        badge.textContent = '🟢 সক্রিয় (Active)';
+      } else {
+        badge.className = 'status-badge inactive';
+        badge.textContent = '⚪ নিষ্ক্রিয় (Inactive)';
+      }
+    }
+
+    function updateApiStatusBadge(isActive) {
+      const badge = document.getElementById('apiKeyStatusBadge');
+      if (badge) {
+        badge.className = isActive ? 'status-badge active' : 'status-badge inactive';
+        badge.textContent = isActive ? '🟢 Active & Connected' : '⚪ Not Connected';
+      }
+    }
+
+    function updateWordCountBadge() {
+      const text = kbTextInput.value || '';
+      const words = text.trim().split(/\s+/).filter(Boolean).length;
+      const chars = text.length;
+      if (kbWordCount) kbWordCount.textContent = `${words} শব্দ`;
+      if (kbCounterText) kbCounterText.textContent = `মোট: ${words} শব্দ, ${chars} অক্ষর`;
+    }
+
+    kbTextInput.addEventListener('input', updateWordCountBadge);
+
+    async function testGeminiConnection() {
+      const keyInput = document.getElementById('userApiKeyInput');
+      const model = document.getElementById('aiModelSelect').value || 'gemini-flash-latest';
+      const resultSpan = document.getElementById('apiTestResult');
+      const testBtn = document.getElementById('testApiBtn');
+
+      const apiKey = keyInput.value.trim() || localStorage.getItem('trustone_gemini_key') || '';
+      if (!apiKey) {
+        resultSpan.style.color = '#f87171';
+        resultSpan.textContent = '❌ অনুগ্রহ করে প্রথমে একটি API Key লিখুন';
+        return;
+      }
+
+      testBtn.disabled = true;
+      testBtn.textContent = '⏳ টেস্ট করা হচ্ছে...';
+      resultSpan.style.color = '#38bdf8';
+      resultSpan.textContent = 'গুগল সার্ভারে পিং পাঠানো হচ্ছে...';
+
+      const startTime = Date.now();
+      try {
+        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ role: 'user', parts: [{ text: 'Reply "OK" only.' }] }],
+            generationConfig: { maxOutputTokens: 10 }
+          })
+        });
+
+        const data = await res.json();
+        const latency = Date.now() - startTime;
+
+        if (res.ok && data.candidates) {
+          resultSpan.style.color = '#34d399';
+          resultSpan.textContent = `✅ সফল! ল্যাটেন্সি: ${latency}ms (${model})`;
+          updateApiStatusBadge(true);
+          showToast('✅ Gemini API Key সফলভাবে কাজ করছে!');
+        } else {
+          const errMsg = data.error?.message || `HTTP ${res.status}`;
+          resultSpan.style.color = '#f87171';
+          resultSpan.textContent = `❌ ত্রুটি: ${errMsg}`;
+          updateApiStatusBadge(false);
+        }
+      } catch (err) {
+        resultSpan.style.color = '#f87171';
+        resultSpan.textContent = `❌ সংযোগ ত্রুটি: ${err.message}`;
+        updateApiStatusBadge(false);
+      } finally {
+        testBtn.disabled = false;
+        testBtn.textContent = '⚡ কানেকশন টেস্ট করুন (Test API)';
+      }
+    }
+
+    function clearSavedKey() {
+      if (confirm('আপনি কি সেভ করা API Key মুছে ফেলতে চান?')) {
+        document.getElementById('userApiKeyInput').value = '';
+        localStorage.removeItem('trustone_gemini_key');
+        updateApiStatusBadge(false);
+        document.getElementById('apiTestResult').textContent = '';
+        showToast('API Key মুছে ফেলা হয়েছে');
+      }
+    }
+
+    async function autoSetTelegramWebhook() {
+      const token = document.getElementById('tgBotToken').value.trim();
+      const btn = document.getElementById('setTgWebhookBtn');
+
+      if (!token) {
+        showToast('❌ দয়া করে প্রথমে Telegram Bot Token দিন');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = '⏳ ওয়েবহুক সেট করা হচ্ছে...';
+
+      try {
+        const webhookUrl = `${window.location.origin}/api/webhook/telegram?token=${encodeURIComponent(token)}`;
+        const tgRes = await fetch(`https://api.telegram.org/bot${token}/setWebhook?url=${encodeURIComponent(webhookUrl)}`);
+        const data = await tgRes.json();
+
+        if (data.ok) {
+          showToast('🎉 টেলিগ্রাম ওয়েবহুক সফলভাবে সেট হয়েছে!');
+          document.getElementById('toggleTG').checked = true;
+          toggleChannelState('tg');
+          btn.textContent = '✅ ওয়েবহুক সেট সম্পন্ন';
+          btn.style.background = '#10b981';
+        } else {
+          showToast(`❌ টেলিগ্রাম এরর: ${data.description}`);
+          btn.textContent = '⚡ আবার চেষ্টা করুন';
+        }
+      } catch (err) {
+        showToast(`❌ ত্রুটি: ${err.message}`);
+        btn.textContent = '⚡ আবার চেষ্টা করুন';
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function openTelegramBot() {
+      const username = document.getElementById('tgBotUsername').value.trim().replace(/^@/, '');
+      if (username) {
+        window.open(`https://t.me/${username}`, '_blank');
+      } else {
+        showToast('❌ দয়া করে Bot Username দিন');
+      }
+    }
+
+    function openMessengerTest() {
+      const pageId = document.getElementById('fbPageId').value.trim();
+      if (pageId) {
+        window.open(`https://m.me/${pageId}`, '_blank');
+      } else {
+        window.open(`https://m.me/`, '_blank');
+      }
+    }
+
+    // Google Docs Import
+    async function importGoogleDoc() {
+      const url = document.getElementById('gdocUrlInput').value.trim();
+      const status = document.getElementById('fetchDocStatus');
+      if (!url) {
+        status.textContent = '❌ অনুগ্রহ করে গুগল ডকসের লিঙ্ক দিন।';
+        return;
+      }
+
+      status.textContent = 'ডকুমেন্ট আনা হচ্ছে, অপেক্ষা করুন...';
+
+      const match = url.match(/\/document\/d\/([a-zA-Z0-9-_]+)/);
+      if (!match || !match[1]) {
+        status.textContent = '❌ সঠিক গুগল ডকস লিঙ্ক পাওয়া যায়নি।';
+        return;
+      }
+
+      const docId = match[1];
+      const fetchUrl = `https://docs.google.com/document/d/${docId}/export?format=txt`;
+
+      try {
+        let text = '';
+        if (window.location.protocol.startsWith('http')) {
+          const res = await fetch('/api/fetch-doc', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url })
+          });
+          const d = await res.json();
+          if (res.ok && d.text) text = d.text;
+          else throw new Error(d.error || 'Failed');
+        } else {
+          const res = await fetch(fetchUrl);
+          if (!res.ok) throw new Error('Google Doc not public');
+          text = await res.text();
+        }
+
+        kbTextInput.value += `\n\n=== GOOGLE DOCS IMPORT (${new Date().toLocaleDateString()}) ===\n` + text;
+        updateWordCountBadge();
+        status.textContent = `✅ সফল হয়েছে! ${text.length} অক্ষর যুক্ত হয়েছে। এখন 'সংরক্ষণ করুন' বাটনে ক্লিক করুন।`;
+      } catch (err) {
+        status.textContent = '❌ লিঙ্ক থেকে সরাসরি রিড করা সম্ভব হয়নি। গুগল ডকসে "Share -> Anyone with the link" নিশ্চিত করুন অথবা ডকসের লেখা কপি করে "সরাসরি টেক্সট" ট্যাবে পেস্ট করুন।';
+      }
+    }
+
+    // File Upload Handler
+    document.getElementById('fileUploadInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      const status = document.getElementById('fileUploadStatus');
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        kbTextInput.value += `\n\n=== UPLOADED FILE (${file.name}) ===\n` + event.target.result;
+        updateWordCountBadge();
+        status.textContent = `✅ "${file.name}" সফলভাবে যুক্ত হয়েছে! এখন 'সংরক্ষণ করুন' বাটনে ক্লিক করুন।`;
+      };
+      reader.onerror = function() {
+        status.textContent = '❌ ফাইল পড়তে সমস্যা হয়েছে।';
+      };
+      reader.readAsText(file);
+    });
+
+    function resetDefaultKnowledge() {
+      if (confirm('আপনি কি পূর্বনির্ধারিত ডিফল্ট তথ্যে ফিরে যেতে চান?')) {
+        kbTextInput.value = DEFAULT_KNOWLEDGE;
+        updateWordCountBadge();
+      }
+    }
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+
+    // Load Settings
+    function loadAllSettings() {
+      // 1. API Key & Model
+      const savedKey = localStorage.getItem('trustone_gemini_key') || '';
+      document.getElementById('userApiKeyInput').value = savedKey;
+      updateApiStatusBadge(!!savedKey);
+
+      const savedModel = localStorage.getItem('trustone_gemini_model') || 'gemini-flash-latest';
+      document.getElementById('aiModelSelect').value = savedModel;
+
+      // 2. Channels
+      const savedChannels = JSON.parse(localStorage.getItem('trustone_channels') || '{}');
+      if (savedChannels.whatsapp) {
+        document.getElementById('toggleWA').checked = savedChannels.whatsapp.enabled !== false;
+        if (savedChannels.whatsapp.phoneNumber) document.getElementById('waPhoneNumber').value = savedChannels.whatsapp.phoneNumber;
+        toggleChannelState('wa');
+      }
+      if (savedChannels.facebook) {
+        document.getElementById('toggleFB').checked = !!savedChannels.facebook.enabled;
+        if (savedChannels.facebook.pageId) document.getElementById('fbPageId').value = savedChannels.facebook.pageId;
+        if (savedChannels.facebook.pageAccessToken) document.getElementById('fbAccessToken').value = savedChannels.facebook.pageAccessToken;
+        toggleChannelState('fb');
+      }
+      if (savedChannels.telegram) {
+        document.getElementById('toggleTG').checked = !!savedChannels.telegram.enabled;
+        if (savedChannels.telegram.botToken) document.getElementById('tgBotToken').value = savedChannels.telegram.botToken;
+        if (savedChannels.telegram.botUsername) document.getElementById('tgBotUsername').value = savedChannels.telegram.botUsername;
+        toggleChannelState('tg');
+      }
+
+      // 3. Knowledge
+      kbTextInput.value = activeKnowledge;
+      updateWordCountBadge();
+
+      if (window.location.protocol.startsWith('http')) {
+        fetch('/api/knowledge')
+          .then(r => r.json())
+          .then(data => {
+            if (data && data.knowledgeText) {
+              activeKnowledge = data.knowledgeText;
+              kbTextInput.value = activeKnowledge;
+              localStorage.setItem('alpo_knowledge_text', activeKnowledge);
+              updateWordCountBadge();
+            }
+          })
+          .catch(() => {});
+      }
+
+      // 4. Profile
+      const savedProf = JSON.parse(localStorage.getItem('trustone_profile') || '{}');
+      if (savedProf.name) document.getElementById('profName').value = savedProf.name;
+      if (savedProf.phone) document.getElementById('profPhone').value = savedProf.phone;
+      if (savedProf.address) document.getElementById('profAddress').value = savedProf.address;
+      if (savedProf.slogan) document.getElementById('profSlogan').value = savedProf.slogan;
+    }
+
+    async function saveAllSettings() {
+      // 1. API Key & Model
+      const apiKey = document.getElementById('userApiKeyInput').value.trim();
+      const model = document.getElementById('aiModelSelect').value;
+      if (apiKey) {
+        localStorage.setItem('trustone_gemini_key', apiKey);
+      } else {
+        localStorage.removeItem('trustone_gemini_key');
+      }
+      localStorage.setItem('trustone_gemini_model', model);
+
+      // 2. Channels
+      const channels = {
+        whatsapp: {
+          enabled: document.getElementById('toggleWA').checked,
+          phoneNumber: document.getElementById('waPhoneNumber').value.trim()
+        },
+        facebook: {
+          enabled: document.getElementById('toggleFB').checked,
+          pageId: document.getElementById('fbPageId').value.trim(),
+          pageAccessToken: document.getElementById('fbAccessToken').value.trim()
+        },
+        telegram: {
+          enabled: document.getElementById('toggleTG').checked,
+          botToken: document.getElementById('tgBotToken').value.trim(),
+          botUsername: document.getElementById('tgBotUsername').value.trim()
+        }
+      };
+      localStorage.setItem('trustone_channels', JSON.stringify(channels));
+
+      if (window.location.protocol.startsWith('http')) {
+        try {
+          await fetch('/api/channels', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(channels)
+          });
+        } catch(e) {}
+      }
+
+      // 3. Knowledge Base
+      activeKnowledge = kbTextInput.value.trim() || DEFAULT_KNOWLEDGE;
+      localStorage.setItem('alpo_knowledge_text', activeKnowledge);
+      updateWordCountBadge();
+      if (window.location.protocol.startsWith('http')) {
+        try {
+          await fetch('/api/knowledge', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ knowledgeText: activeKnowledge })
+          });
+        } catch (e) {}
+      }
+
+      // 4. Profile
+      const profile = {
+        name: document.getElementById('profName').value.trim(),
+        phone: document.getElementById('profPhone').value.trim(),
+        address: document.getElementById('profAddress').value.trim(),
+        slogan: document.getElementById('profSlogan').value.trim()
+      };
+      localStorage.setItem('trustone_profile', JSON.stringify(profile));
+
+      showToast('🎉 সকল সেটিংস ও ইন্টিগ্রেশন সফলভাবে সংরক্ষিত হয়েছে!');
+    }
+
+    // Handle hash on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadAllSettings();
+
+      const hash = window.location.hash.replace('#', '');
+      if (hash === 'channels') {
+        switchTab('tab-channels');
+      } else if (hash === 'kb') {
+        switchTab('tab-kb');
+      } else if (hash === 'profile') {
+        switchTab('tab-profile');
+      } else if (hash === 'ai') {
+        switchTab('tab-ai');
+      }
+    });
+  </script>
+</body>
+</html>

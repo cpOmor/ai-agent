@@ -41,13 +41,18 @@ CRITICAL SERIAL BOOKING AUTOMATION RULES (অত্যন্ত আবশ্য�
  * @param {string} [customInstruction] - Optional override instruction
  * @returns {Promise<{text: string, model: string}>}
  */
-async function sendMessage(history, customInstruction) {
+async function sendMessage(history, customInstruction, apiKeyOverride) {
   let lastError = null;
   const sysText = customInstruction || getSystemInstruction();
+  const apiKey = apiKeyOverride || config.API_KEY;
+
+  if (!apiKey) {
+    throw new Error('Gemini API Key পাওয়া যায়নি। দয়া করে Vercel Settings > Environment Variables-এ গিয়ে GEMINI_API_KEY যোগ করুন, অথবা চ্যাট স্ক্রিনে "API Key" বাটনে ক্লিক করে সরাসরি API Key দিন।');
+  }
 
   for (const model of config.MODELS) {
     try {
-      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${config.API_KEY}`;
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
       
       const payload = {
         contents: history,
